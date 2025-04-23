@@ -53,10 +53,10 @@
   logo-horizontal: true,
   tutor: none,
   promo: none,
-  confidentiality: none
+  confidentiality: none 
 ) = {
-
-  set page(background: move(dx: 0pt, dy: -13%, image("./../assets/blason.svg")))
+  set page(fill : gradient.linear(rgb("f1efff"), rgb("f1efff")), background: move(dx: 0pt, dy: -13%, image("./../assets/blason.svg")))
+  //possibilité d'ajouter un gradient ici (juste changer la couleur)
   set text(font: "New Computer Modern Sans", hyphenate: false, fill: rgb("5f259f"))
   set align(center)
 

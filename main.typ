@@ -1,128 +1,149 @@
-#import "template.typ" as template
+/***********************/
+/* TEMPLATE DEFINITION */
+/***********************/
 
-// Defining variables for the cover page and PDF metadata
+/* HANDLING DATE DISPLAY */
 
-// Main title on cover page
-#let title = [Rapport de stage en entreprise
-#linebreak()
-sur plusieurs lignes]
+#let translate_month(month) = {
+  // Construction mapping for months
+  let t = (:)
+  let fr-month-s = ("Janv.", "Févr.", "Mars", "Avr.", "Mai", "Juin",
+    "Juill.", "Août", "Sept.", "Oct.", "Nov.", "Déc.")
+  let fr-months-l = ("Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre")
+  for i in range(12) {
+    let idate = datetime(year: 0, month: i + 1, day: 1)
+    let ml = idate.display("[month repr:long]")
+    let ms = idate.display("[month repr:short]")
+    t.insert(ml, fr-months-l.at(i))
+    t.insert(ms, fr-month-s.at(i))
+  }
 
-// Subtitle on cover page
-#let subtitle = "Un sous-titre pour expliquer ce titre"
+  // Translating month
+  let fr_month = t.at(month)
+  fr_month
+}
 
-// Logo on cover page
-#let logo = image("./assets/typst.png") //none or image("path/to/my-logo.png")
-#let logo-horizontal = true // set to true if the logo is squared or horizontal, set to false if not
+#let display-date(date, short-month) = {
+  context {
+    // Récupération du mois avec option court/long
+    let repr = if short-month { "short" } else { "long" }
+    let month = date.display("[month repr:" + repr + "]")
 
-// Short title on headers
-#let short-title = "Rapport de stage"
-#let author = "Chloé Larroze"
-#let date-start = datetime(year: 2025, month: 05, day: 15)
-#let date-end = datetime(year: 2025, month: 08, day: 22)
+    // Traduction en français si besoin
+    if text.lang == "fr" {
+      month = translate_month(month)
+    }
 
-// Tuteur, promotion, confidentialité
-#let tutor = "Jean Dupont"
-#let promo = "EI23"
-#let confidentiality = "Ce document est confidentiel, ne pas diffuser."
+    // Affiche le jour, le mois, puis l’année
+    [#str(date.day()) #month #str(date.year())]
+  }
+}
 
-// Set to true for bigger margins and so on (good luck with your report)
-#let despair-mode = false
-#set text(lang: "fr")
-
-// Set document metadata
-#set document(title: title, author: author, date: datetime.today())
-#show: template.apply.with(despair-mode: despair-mode)
-
-// Cover page
-#template.cover.cover(
+/* MAIN COVER DEFINITION */
+#let cover(
   title,
   author,
   date-start,
   date-end,
-  subtitle: subtitle,
-  logo: logo,
-  logo-horizontal: logo-horizontal,
-  tutor: tutor,
-  promo: promo,
-  confidentiality: confidentiality
+  subtitle: none,
+  logo: none,
+  short-month: false,
+  logo-horizontal: true,
+  tutor: none,
+  promo: none,
+  confidentiality: none 
+) = {
+  set page(fill : gradient.linear(rgb("f1efff"), rgb("f1efff")), background: move(dx: 0pt, dy: -13%, image("./../assets/blason.svg")))
+  //possibilité d'ajouter un gradient ici (juste changer la couleur)
+  set text(font: "New Computer Modern Sans", hyphenate: false, fill: rgb("5f259f"))
+  set align(center)
+
+  v(50mm)
+
+  set text(size: 24pt, weight: "bold")
+  upper(title)
+
+  v(50mm)
+
+  if subtitle != none {
+    set text(size: 20pt)
+    subtitle
+  }
+
+  v(1.5fr)
+  
+  set text(size: 18pt, weight: "regular")
+  display-date(date-start, short-month); [ \- ]; display-date(date-end, short-month)
+
+  image("./../assets/filet-court.svg")
+
+  // 👇 Nouveau bloc d'infos
+  if tutor != none or promo != none or confidentiality != none {
+    v(0.5fr)
+    set text(size: 12pt)
+
+    v(1fr)
+
+  if tutor != none {
+    set text(size: 12pt)
+    "Tuteur de stage : " + tutor
+  }
+   v(0.2fr)
+  
+  if promo != none {
+    "Promotion : " + promo
+  }
+   v(1fr)
+  
+  }
+
+  v(1fr)
+
+  let logo-height = if (logo-horizontal) { 20mm } else { 30mm }
+  let path-logo = if (logo-horizontal) { "./../assets/logomiones_black.png" } else { "./../assets/logo-x.svg" }
+
+  set image(height: logo-height)
+
+  if (logo != none) {
+    grid(
+      columns: (1fr, 1fr), align: center + horizon,
+      logo, image(path-logo)
+    )
+  } else {
+    grid(
+      columns: (1fr), align: center + horizon,
+      image(path-logo)
+    )
+  }
+  
+  v(2fr)
+   set text(size: 16pt)
+  smallcaps(author)
+  
+  v(1fr)
+   if confidentiality != none {
+    set text(style: "italic", size: 10pt)
+    confidentiality
+  }
+}
+
+
+
+/********************/
+/* TESTING TEMPLATE */
+/********************/
+
+#set text(lang: "fr")
+
+#cover(
+  [A very long title over multiple lines automatically],
+  "Jane Doe",
+  datetime.today(),
+  datetime.today(),
+  subtitle: "Je n'ai pas de stage mais je suis trkl",
+  logo-horizontal: true,
+  tutor: "Jean Dupont",
+  promo: "EI23",
+  confidentiality: "Ce document est confidentiel et ne doit pas être diffusé."
 )
-
-#pagebreak()
-
-
-// Acknowledgements
-#heading(level: 1, numbering: none, outlined: false)[Remerciements]
-#lorem(250)
-#pagebreak()
-
-// Executive summary
-//#heading(level: 1, numbering: none, outlined: false)[Executive summary]
-//#lorem(300)
-//#pagebreak()
-
-// Table of contents
-#outline(title: [Template contents], indent: 1em, depth: 2)
-
-// Defining header and page numbering (will pagebreak)
-#show: template.pages.apply-header-footer.with(short-title: short-title)
-
-// Introduction
-#heading(level: 1, numbering: none)[Introduction]
-#lorem(400)
-#pagebreak()
-
-// Here goes the main content
-= Premier titre
-
-== Un sous-titre
- 
-#lorem(30)
-
-=== Un détail pas si inutile
-
-==== Halte au sketch
-
-#lorem(20)
-
-
-=== Encore un autre décidément
-
-#lorem(120)
-
-==== Il en faut toujours plus
-
-#lorem(80)
-
-== L'inspiration se fait rare
-Ne pas oublier d'expirer surtout. #lorem(20)
-
-#lorem(35)
-
-#pagebreak()
-
-
-= Deuxième partie
-
-#lorem(300)
-
-#pagebreak()
-
-= Troisième axe
-Parce qu'on a beaucoup de choses à dire et qu'on en a gros.
-
-#pagebreak()
-
-
-// Conclusion
-#heading(level: 1, numbering: none)[Conclusion]
-#lorem(200)
-
-// Bibliography (if necessary)
-// #pagebreak()
-// #bibliography("path-to-file.bib")
-
-// Annexe
-#pagebreak()
-#show: template.heading.appendix.with(title: "Annexe")
-= Fiche d'évaluation du stagiaire
-Yeah j'ai eu que des A partout trop bien, je suis un.e super stagiaire.
