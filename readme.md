@@ -26,15 +26,18 @@ These variables will be used for PDF metadata, default cover page and default he
 
 
 ## Preview 
+<div align="center" style="display: flex; flex-direction: row; justify-content: center; gap: 20px;">
 
-<div align="center">
-    <img src="./preview1.png" alt="preview" width="400px"/>
+  <div>
+    <img src="./preview1.png" alt="preview1" width="400px"/>
     <p><em>Figure 1 : Cover page preview</em></p>
-</div>
+  </div>
 
----
-
-<div align="center">
-    <img src="./preview2.png" alt="preview" width="400px"/>
+  <div>
+    <img src="./preview2.png" alt="preview2" width="400px"/>
     <p><em>Figure 2 : Page preview</em></p>
+  </div>
+
 </div>
+
+
