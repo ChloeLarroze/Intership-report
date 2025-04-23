@@ -1,4 +1,4 @@
-# Typst Polytechnique package
+# Typst Mines de Saint-Étienne package
 
 A Typst package for Mines Saint-Étienne's student reports.
 
