@@ -26,15 +26,18 @@ These variables will be used for PDF metadata, default cover page and default he
 
 
 ## Preview 
+<table>
+  <tr>
+    <td align="center">
+      <img src="./preview1.png" alt="preview1" width="400px"/><br/>
+      <em>Figure 1 : Cover page preview</em>
+    </td>
+    <td align="center">
+      <img src="./preview2.png" alt="preview2" width="400px"/><br/>
+      <em>Figure 2 : Page preview</em>
+    </td>
+  </tr>
+</table>
 
-<div align="center">
-    <img src="./preview1.png" alt="preview" width="400px"/>
-    <p><em>Figure 1 : Cover page preview</em></p>
-</div>
 
----
 
-<div align="center">
-    <img src="./preview2.png" alt="preview" width="400px"/>
-    <p><em>Figure 2 : Page preview</em></p>
-</div>
