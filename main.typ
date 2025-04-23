@@ -1,6 +1,7 @@
 #import "template.typ" as template
 
 // Defining variables for the cover page and PDF metadata
+
 // Main title on cover page
 #let title = [Rapport de stage en entreprise
 #linebreak()
@@ -9,15 +10,20 @@ sur plusieurs lignes]
 // Subtitle on cover page
 #let subtitle = "Un sous-titre pour expliquer ce titre"
 
-// Add an additional logo on cover page
+// Logo on cover page
 #let logo = image("./assets/typst.png") //none or image("path/to/my-logo.png")
 #let logo-horizontal = true // set to true if the logo is squared or horizontal, set to false if not
 
 // Short title on headers
 #let short-title = "Rapport de stage"
 #let author = "Chloé Larroze"
-#let date-start = datetime(year: 2024, month: 06, day: 05)
-#let date-end = datetime(year: 2024, month: 09, day: 05)
+#let date-start = datetime(year: 2025, month: 05, day: 15)
+#let date-end = datetime(year: 2025, month: 08, day: 22)
+
+// Tuteur, promotion, confidentialité
+#let tutor = "Jean Dupont"
+#let promo = "EI23"
+#let confidentiality = "Ce document est confidentiel, ne pas diffuser."
 
 // Set to true for bigger margins and so on (good luck with your report)
 #let despair-mode = false
@@ -28,8 +34,21 @@ sur plusieurs lignes]
 #show: template.apply.with(despair-mode: despair-mode)
 
 // Cover page
-#template.cover.cover(title, author, date-start, date-end, subtitle: subtitle, logo: logo, logo-horizontal: logo-horizontal)
+#template.cover.cover(
+  title,
+  author,
+  date-start,
+  date-end,
+  subtitle: subtitle,
+  logo: logo,
+  logo-horizontal: logo-horizontal,
+  tutor: tutor,
+  promo: promo,
+  confidentiality: confidentiality
+)
+
 #pagebreak()
+
 
 // Acknowledgements
 #heading(level: 1, numbering: none, outlined: false)[Remerciements]
@@ -37,9 +56,9 @@ sur plusieurs lignes]
 #pagebreak()
 
 // Executive summary
-#heading(level: 1, numbering: none, outlined: false)[Executive summary]
-#lorem(300)
-#pagebreak()
+//#heading(level: 1, numbering: none, outlined: false)[Executive summary]
+//#lorem(300)
+//#pagebreak()
 
 // Table of contents
 #outline(title: [Template contents], indent: 1em, depth: 2)

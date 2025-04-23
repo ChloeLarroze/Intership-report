@@ -26,23 +26,36 @@
 
 #let display-date(date, short-month) = {
   context {
-    // Getting adapted month string
+    // Récupération du mois avec option court/long
     let repr = if short-month { "short" } else { "long" }
     let month = date.display("[month repr:" + repr + "]")
 
-    // Translate if necessary
+    // Traduction en français si besoin
     if text.lang == "fr" {
       month = translate_month(month)
     }
 
-  // Returns month and year
-  [#month #str(date.year())]
+    // Affiche le jour, le mois, puis l’année
+    [#str(date.day()) #month #str(date.year())]
   }
 }
 
 
 /* MAIN COVER DEFINITION */
-#let cover(title, author, date-start, date-end, subtitle: none, logo: none, short-month: false, logo-horizontal: true) = {
+#let cover(
+  title,
+  author,
+  date-start,
+  date-end,
+  subtitle: none,
+  logo: none,
+  short-month: false,
+  logo-horizontal: true,
+  tutor: none,
+  promo: none,
+  confidentiality: none
+) = {
+
   set page(background: move(dx: 0pt, dy: -13%, image("./../assets/blason.svg")))
   set text(font: "New Computer Modern Sans", hyphenate: false, fill: rgb("5f259f"))
   set align(center)
@@ -66,8 +79,25 @@
 
   image("./../assets/filet-court.svg")
 
-  set text(size: 16pt)
-  smallcaps(author)
+  // 👇 Nouveau bloc d'infos
+  if tutor != none or promo != none or confidentiality != none {
+    v(0.5fr)
+    set text(size: 12pt)
+
+    v(1fr)
+
+  if tutor != none {
+    set text(size: 12pt)
+    "Tuteur de stage : " + tutor
+  }
+   v(0.2fr)
+  
+  if promo != none {
+    "Promotion : " + promo
+  }
+   v(1fr)
+  
+  }
 
   v(1fr)
 
@@ -87,8 +117,18 @@
       image(path-logo)
     )
   }
-
+  
+  v(2fr)
+   set text(size: 16pt)
+  smallcaps(author)
+  
+  v(1fr)
+   if confidentiality != none {
+    set text(style: "italic", size: 10pt)
+    confidentiality
+  }
 }
+
 
 
 /********************/
@@ -104,4 +144,7 @@
   datetime.today(),
   subtitle: "Je n'ai pas de stage mais je suis trkl",
   logo-horizontal: true,
+  tutor: "Jean Dupont",
+  promo: "EI23",
+  confidentiality: "Ce document est confidentiel et ne doit pas être diffusé."
 )
