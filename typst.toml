@@ -1,0 +1,8 @@
+[package]
+name = "main"
+version = "1.0.0"
+entrypoint = "template.typ"
+authors = [" Chloé Larroze <@chloelarroze>"]
+license = "MIT"
+description = "A report template for Mines Saint-Étienne's students."
+categories = ["report"]
