@@ -1,4 +1,4 @@
-#import "../template.typ" as template
+#import "./../template.typ" as template
 
 #show:  template.apply
 
@@ -25,11 +25,11 @@
 }
 
 // Defining variables for the cover page and PDF metadata
-#let title = [Guide for Typst #linebreak() Polytechnique package]
+#let title = [Guide for Typst #linebreak() Mines package]
 #let subtitle = "A modern alternative to LaTeX"
-#let logo = image("assets/logo-x.svg")
+#let logo = image("../assets/logomiones_black.png")
 #let short_title = "package guide"
-#let authors = ("Rémi Germe")
+#let authors = ("Chloé Larroze")
 #let date_start = datetime(year: 2024, month: 07, day: 05)
 #let date_end = datetime(year: 2024, month: 08, day: 05)
 
@@ -150,7 +150,7 @@ You can also learn more about #link("https://github.com/typst/packages")[Typst p
 
 #pagebreak()
 
-#bibliography("assets/example.bib")
+#bibliography("./../assets/example.bib")
 
 #pagebreak()
 #show: template.heading.appendix.with(title: "Appendix")
