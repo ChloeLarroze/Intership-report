@@ -144,7 +144,7 @@ You can generate dummy text with the `#lorem(n)` command. For example : #lower(l
 
 == Contribute
 
-Contributions are welcomed ! Check out the #link("https://github.com/remigerme/typst-polytechnique")[source repository].
+Contributions are welcomed ! Check out the #link("https://github.com/ChloeLarroze/Report-template")[source repository].
 
 You can also learn more about #link("https://github.com/typst/packages")[Typst packages] release pipeline.
 
